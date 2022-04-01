@@ -1,0 +1,15 @@
+{
+    "makerId": "{{cookiecutter.maker_uuid}}",
+    "function": [
+      "{{cookiecutter.module_function}}"
+    ],
+    "description": "{{cookiecutter.module_description}}",
+    "width": {{cookiecutter.module_width}},
+    "imageLink": "{{cookiecutter.module_raw_image_link}}",
+    "link": "{{cookiecutter.module_link}}",
+    "type": [
+      "{cookiecutter.module_type}"
+    ],
+    "id": "{{ uuid4() }}",
+    "name": "{{cookiecutter.module_name}}"
+  }

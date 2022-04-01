@@ -1,0 +1,11 @@
+{
+    "_extensions": ["cookiecutter.extensions.UUIDExtension"],
+    "module_name": "My Amazing Kosmo Module",
+    "module_description": "Kosmo module that take input from brainwaves, runs them through a foo-bar algorithm on an Arduino Meta, and converts them to quantized 1.3v/oct notes via an 11.6 bit DAC.",
+    "module_width": 5,
+    "module_link": "https://github.com/Maker/ModuleName",
+    "module_raw_image_link": "https://github.com/Maker/ModuleName/image.jpg?raw=true",
+    "module_function": ["Attenuator","Blank Panel","Clock Generator","Clock Modulator","Comparator","Controller","CV Modulation","Delay","Digital","Distortion","Drum","Dual/Stereo","Dynamics","Effect","Envelope Follower","Envelope Generator","Equalizer","Expander","Expression","External","Filter","Frequency Divider","Function Generator","Fuzz","LFO","Logic","Low Pass Gate","MIDI","Mixer","Multiple","Noise","Oscillator","Panning","Phase Shifter","Pitch Shifter","Polarizer","Power","PreAmp","Quad","Quantizer","Random","Reverb","Ring Modulator","Sample and Hold","Sampling","Sequencer", "Slew Limiter","Switch","Synth Voice","Tube","Tuner","Utility","VCA","Video","Waveshaper"],
+    "module_type": ["Chipset","Firmware","PCB","PCB + Panel","Panel","Protoboard","Protoboard + Panel","Schematic","Stripboard"],
+    "maker_uuid": "Get from https://github.com/boylejack/kosmodulargrid/blob/main/public/data/makers.json - auto maker add WIP"
+}
