@@ -13,3 +13,4 @@
     "id": "{{ uuid4() }}",
     "name": "{{cookiecutter.module_name}}"
   }
+]

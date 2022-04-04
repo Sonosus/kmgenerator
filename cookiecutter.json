@@ -7,5 +7,8 @@
     "module_raw_image_link": "https://github.com/Maker/ModuleName/image.jpg?raw=true",
     "module_function": ["Attenuator","Blank Panel","Clock Generator","Clock Modulator","Comparator","Controller","CV Modulation","Delay","Digital","Distortion","Drum","Dual/Stereo","Dynamics","Effect","Envelope Follower","Envelope Generator","Equalizer","Expander","Expression","External","Filter","Frequency Divider","Function Generator","Fuzz","LFO","Logic","Low Pass Gate","MIDI","Mixer","Multiple","Noise","Oscillator","Panning","Phase Shifter","Pitch Shifter","Polarizer","Power","PreAmp","Quad","Quantizer","Random","Reverb","Ring Modulator","Sample and Hold","Sampling","Sequencer", "Slew Limiter","Switch","Synth Voice","Tube","Tuner","Utility","VCA","Video","Waveshaper"],
     "module_type": ["Chipset","Firmware","PCB","PCB + Panel","Panel","Protoboard","Protoboard + Panel","Schematic","Stripboard"],
-    "maker_uuid": "Get from https://github.com/boylejack/kosmodulargrid/blob/main/public/data/makers.json - auto maker add WIP"
+    "maker_uuid": "{{cookiecutter.maker_uuid}}",
+    "maker_name": "{{cookiecutter.maker_name}}",
+    "maker_desc": "{{cookiecutter.maker_desc}}",
+    "maker_site": "{{cookiecutter.maker_site}}"
 }

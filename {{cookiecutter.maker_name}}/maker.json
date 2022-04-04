@@ -1,0 +1,7 @@
+{
+    "id": "{{cookiecutter.maker_uuid}}",
+    "name": "{{cookiecutter.maker_name}}",
+    "description": "{{cookiecutter.maker_desc}}",
+    "website": "{{cookiecutter.maker_site}}"
+  }
+]

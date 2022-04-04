@@ -1,1 +1,3 @@
 cookiecutter
+pygithub
+pygit2
