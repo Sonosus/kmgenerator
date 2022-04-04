@@ -1,41 +1,56 @@
-from github import Github
+import github
 import json
 import os
 import subprocess
 import uuid
 from cookiecutter.main import cookiecutter
+import fileutils
+import shutil
+from datetime import datetime
 
-file_location = os.path.dirname(os.path.realpath(__file__))
+#fetch base directory path
+script_path = os.path.dirname(os.path.realpath(__file__))
 
-
-g = Github("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")
+# initialize github and fork repo
+print("Connecting to GitHub and forking repo...")
+g = github.Github(fileutils.read_file("key.txt"))
 user = g.get_user()
 username = user.login
 repo = g.get_repo('boylejack/kosmodulargrid')
 fork = user.create_fork(repo)
+upstream_user = g.get_user('boylejack')
+print("Done!")
 
+
+# clone repo to local directory
+print("Cloning repository to local folder...")
 script_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_path)     # ensure repo is cloned to directory containing script
 command = "git clone https://github.com/" + username + "/kosmodulargrid.git"
-subprocess.run(command) # clone forked repo to file_location
+subprocess.run(command) # clone forked repo to script_path
+print("Done!")
 
+# define path to data we want to modify
+makers_file = script_path + "/kosmodulargrid/public/data/makers.json"
+modules_file = script_path + "/kosmodulargrid/public/data/modules.json"
+#makers_raw = open(makers_file,"r") # decode file
 
-makers_file_location = script_path + "\kosmodulargrid\public\data\makers.json"
-#makers_raw = open(makers_file_location,"r") # decode file
-
-with open(makers_file_location) as f:
+print("Loading and parsing makers.json...")
+# load makers.json
+with open(makers_file) as f:
     makers_json = json.loads(f.read())
     f.close()
-
+print("Makers parsed:")
+#parse makers.json into dictionary
 num_makers = len(makers_json) # count entries in loaded json
 maker_dict = {}
 for i in range(0,num_makers): # loop x times where x is number of entries
     makers = makers_json[i]  # load maker from that entry in list
     id = makers["id"] 
     name = makers["name"]
-    print(id," ",name)
+    print("Name:  " + name + "UUID:  " + id)
     maker_dict[name] = id # add name and id to dictionary
-
+print("Done!")
 
 
 def checkname():
@@ -46,20 +61,21 @@ def checkname():
         uuid = maker_dict[queryname]
         return queryname, uuid, False
     else: # if it's not in the list of known makers
-        new = input("Maker " + queryname + "not found, would you like to create a new one? Enter Y/N").upper
-        if new == "Y":
-            uuid = str(uuid.uuid4())
-            new_name = input("Enter new maker name again:")
-            maker_dict[new_name] = uuid
-            return new_name, uuid, True
-        elif new == "N":
-            print("Try again")
-            checkname() # repeat until a known maker is entered
+        print("Maker " + queryname + "not found, creating new maker.")
+        uuid = str(uuid.uuid4())
+        new_name = input("Enter new maker name again:")
+        maker_dict[new_name] = uuid
+        if new_name != queryname:
+            raise NameError
+        return new_name, uuid, True
 
+#get maker details from input function
 maker_name, maker_uuid, new_maker = checkname()
 
+#print out all maker names and ids
 print("Name: " + maker_name + ", UUID: " + maker_uuid)
 
+#gather data for new maker
 if new_maker == True:
     maker_desc = input("Enter new maker description (e.g LMNC forum user Sonosus):")
     maker_site = input("Enter new maker's website including https://:")
@@ -67,36 +83,75 @@ else:
     maker_desc = ""
     maker_site = ""
 
-print("Generating template using cookiecutter. Input information at all prompts when requested then press return.")
-print("WARNING: FOR PROMPTS maker_uuid ONWARDS, DO NOT ENTER ANY DATA. PRESS RETURN.")
-print("THIS SCRIPT WILL GENERATE THESE VALUES FOR YOU.")
-cookiecutter(file_location, extra_context={'maker_uuid':maker_uuid, 'maker_name':maker_name, 'maker_desc':maker_desc, 'maker_site':maker_site})
+def ask_new():
+    answer = input("Create another module? Y/N: ")
+    if answer == "Y":
+        return  True
+    elif answer == "N":
+        return False
+    else:
+        print("Input not recognised, try again.")
+        ask_new()
 
-def rm_last_lines(file):
-    original=open(file,"r")
-    d=original.read()
-    original.close()
-    m=d.split("\n")
-    s="\n".join(m[:-2])
-    original=open(file,"w+")
-    for i in range(len(s)):
-        original.write(s[i])
-    original.close()
-
-rm_last_lines(file_location + "/kosmodulargrid/public/data/makers.json")
-rm_last_lines(file_location + "/kosmodulargrid/public/data/modules.json")
-
-
-def read_file(path):
-    file = open(path, "r")
-    snippet = file.read()
-    file.close()
-    return snippet
-
-print(read_file(maker_name + '/maker.json'))
-
-
-
+keep_going = True
+while keep_going:
+    print("Generating template using cookiecutter. Input information at all prompts when requested then press return.")
+    print("WARNING: FOR PROMPTS maker_uuid ONWARDS, DO NOT ENTER ANY DATA. PRESS RETURN.")
+    print("THIS SCRIPT WILL GENERATE THESE VALUES FOR YOU.")
     
-
+    #generate files with cookiecutter
+    cookiecutter(script_path, extra_context={'maker_uuid':maker_uuid, 'maker_name':maker_name, 'maker_desc':maker_desc, 'maker_site':maker_site})
     
+    #copy modules to git repo
+    print("Adding module to modules.json...")
+    fileutils.rm_last_lines(script_path + "/kosmodulargrid/public/data/modules.json")
+    module_snippet = ",\n" + fileutils.read_file(maker_name + '/module.json')
+    fileutils.append_to_file(modules_file, module_snippet)
+    print("Done!")
+    
+    #delete buffer file
+    print("Deleting temporary modules file...")
+    os.remove(script_path + "/" + maker_name + "/module.json")
+    print("Done!")
+
+    # do we want more modules?
+    keep_going = ask_new()
+
+# if maker does not exist, add their details in the repo
+if new_maker:
+    print("Adding new maker to makers.json...")
+    fileutils.rm_last_lines(script_path + "/kosmodulargrid/public/data/makers.json")
+    maker_snippet = ",\n" + fileutils.read_file(maker_name + '/maker.json')
+    fileutils.append_to_file(makers_file, maker_snippet)
+    print("Done!")
+
+#delete cookiecutter's generated directory
+print("Deleting temporary data folder...")
+shutil.rmtree(script_path + "/" + maker_name)
+print("Done!")
+
+# add all files to git and commit them
+print("Adding files and committing to Git repository...")
+cloned_dir = script_path + "/kosmodulargrid"
+subprocess.run("git add -A", cwd=cloned_dir)
+subprocess.run('git commit -m "Add modules generated by kmgenerator, a program maintained by Sonosus (github.com/sonosus/kmgenerator)', cwd=cloned_dir)
+print("Done!")
+
+# git push files to remote fork
+print("Pushing local repository to GitHub...")
+subprocess.run("git push", cwd=cloned_dir)
+print("Done!")
+
+
+print("Starting pull request on GitHub...")
+time = datetime.now()
+timestamp = time.strftime("%d-%b-%Y at %H:%M:%S")
+pr_title = "Add " + maker_name + " modules"
+pr_message = "Add modules by " + maker_name + ".\nPull request generated by [kmgenerator](https://github.com/sonosus/kmgenerator) on " + time
+pr = repo.create_pull(pr_title, pr_message, "main", '{}:{}'.format(username, 'main'), False)
+print("Done! view your pull request at https://github.com/boylejack/kosmodulargrid/pulls")
+
+#clean up files
+print("Deleting cloned repository...")
+shutil.rmtree(script_path + "/kosmodulargrid")
+print("Done!")
