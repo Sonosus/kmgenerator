@@ -1,8 +1,9 @@
-# Kosmodular Grid Module Generator - WORK IN PROGRESS
+# Kosmodular Grid Module Generator
 
-NOT SUITABLE FOR USE
 
-A Python program that takes module information as input from the user and starts a pull request to add said module to [Kosmodular Grid](kosmodulargrid.com). Oh, did I say it was a work in progress?
+A Python program that takes module information as input from the user and starts a pull request to add said module to [Kosmodular Grid](kosmodulargrid.com).
+
+More info to come.
 
 # Prerequisites
 Python 3
