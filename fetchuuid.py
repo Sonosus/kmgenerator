@@ -48,7 +48,7 @@ for i in range(0,num_makers): # loop through list n times
     makers = makers_json[i]  # load maker from that entry in list
     id = makers["id"] 
     name = makers["name"]
-    print("Name:  " + name + "UUID:  " + id)
+    print("UUID:  " + id + "    Name:  " + name)
     maker_dict[name] = id # add name and id to dictionary
 print("Done!")
 
