@@ -3,8 +3,20 @@
 
 A Python program that takes module information as input from the user and starts a pull request to add said module to [Kosmodular Grid](kosmodulargrid.com).
 
-More info to come.
 
 # Prerequisites
 Python 3
-cookiecutter
+ansys-cookiecutter
+pygithub
+
+# Installation
+
+Clone the repository.
+Run the command `pip install -r requirements.txt`
+
+# Usage
+
+Run the script fetchuuid.py. 
+
+
+
