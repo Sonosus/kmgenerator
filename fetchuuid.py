@@ -26,8 +26,8 @@ print("Done!")
 print("Cloning repository to local folder...")
 script_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_path)     # ensure repo is cloned to directory containing script
-command = "git clone https://github.com/" + username + "/kosmodulargrid.git"
-subprocess.run(command) # clone forked repo to script_path
+command = "git clone https://github.com/" + username + "/kosmodulargrid"
+os.system(command) # clone forked repo to script_path
 print("Done!")
 
 # define path to data we want to modify
