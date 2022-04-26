@@ -44,7 +44,7 @@ print("Makers parsed:")
 #parse makers.json into dictionary
 num_makers = len(makers_json) # count entries in loaded json
 maker_dict = {}
-for i in range(0,num_makers): # loop x times where x is number of entries
+for i in range(0,num_makers): # loop through list n times
     makers = makers_json[i]  # load maker from that entry in list
     id = makers["id"] 
     name = makers["name"]
