@@ -7,6 +7,7 @@ from cookiecutter.main import cookiecutter
 import fileutils
 import shutil
 from datetime import datetime
+from git import Repo
 
 #fetch base directory path
 script_path = os.path.dirname(os.path.realpath(__file__))
