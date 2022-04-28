@@ -8,7 +8,7 @@
     "imageLink": "{{cookiecutter.module_raw_image_link}}",
     "link": "{{cookiecutter.module_link}}",
     "type": [
-      "{cookiecutter.module_type}"
+      "{{cookiecutter.module_type}}"
     ],
     "id": "{{ uuid4() }}",
     "name": "{{cookiecutter.module_name}}"
