@@ -13,16 +13,9 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 
 # initialize github and fork repo
 print("Connecting to GitHub and forking repo...")
+
 raw_key = fileutils.read_file("key.txt")
-print(raw_key)
-if raw_key.endswith("\n"):
-    key_len = len(raw_key)
-    key = raw_key[:key_len - 1]
-else:
-    key = raw_key
-print(key)
-
-
+key = raw_key.strip("\n")
 
 g = github.Github(key)
 user = g.get_user()
