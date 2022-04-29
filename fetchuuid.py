@@ -103,6 +103,9 @@ while keep_going:
     print("WARNING: FOR PROMPTS maker_uuid ONWARDS, DO NOT ENTER ANY DATA. PRESS RETURN.")
     print("THIS SCRIPT WILL GENERATE THESE VALUES FOR YOU.")
     
+    #delete cookiecutter's generated directory
+    shutil.rmtree(script_path + "/" + maker_name)
+    
     #generate files with cookiecutter
     cookiecutter(script_path, extra_context={'maker_uuid':maker_uuid, 'maker_name':maker_name, 'maker_desc':maker_desc, 'maker_site':maker_site})
     
