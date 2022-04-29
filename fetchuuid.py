@@ -104,8 +104,9 @@ while keep_going:
     print("THIS SCRIPT WILL GENERATE THESE VALUES FOR YOU.")
     
     #delete cookiecutter's generated directory
-    shutil.rmtree(script_path + "/" + maker_name)
-    
+    if os.path.isdir(script_path + "/" + maker_name):
+        shutil.rmtree(script_path + "/" + maker_name)
+        
     #generate files with cookiecutter
     cookiecutter(script_path, extra_context={'maker_uuid':maker_uuid, 'maker_name':maker_name, 'maker_desc':maker_desc, 'maker_site':maker_site})
     
