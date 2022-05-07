@@ -26,6 +26,9 @@ fork = user.create_fork(repo)
 upstream_user = g.get_user('boylejack')
 print("Done!")
 
+# set up pygithub
+repo = Repo.clone_from(https://)
+
 
 # clone repo to local directory
 print("Cloning repository to local folder...")

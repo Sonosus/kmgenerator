@@ -1,0 +1,16 @@
+{
+    "makerId": "<maker_id>",
+    "function": [
+      "<function>"
+    ],
+    "description": "<description>",
+    "width": <width>,
+    "imageLink": "<image_link>",
+    "link": "<link>",
+    "type": [
+      "<type>"
+    ],
+    "id": "<id>",
+    "name": "<name>"
+  }
+]
